@@ -5,7 +5,7 @@ Web Extension ABI solves the issue browser extension developers may face when po
 I was working on open-in-mpv's extension re-write and this seemed to be the most logical way to deal with handling both `Chrome` and `Firefox` together to keep a clean singular codebase.
 
 # Broken Standards
-Obviously disagreements occur with API designing, however the differences between the web extension api boils down to an object name.
+Obviously disagreements occur with API designing, however the differences between the web extension api boils down to an object name and property differences.
 
 ```Javascript
 // Google Chrome
@@ -26,8 +26,19 @@ a method like this would need to be used in order to provide the same functional
 
 The following code is using web-extension-abi:
 ```Javascript
-import {abi} from './abi.js'
+import {abi} from './abi.js';
 abi.contextMenus.create(/** Context menu option object */);
+```
+
+However this may not cut it for Chrome as it must be installed at runtime.
+
+```Javascript
+import {createContextMenu} from './abi.js';
+// The parameters can be an object for a single context menu and array of object for multiple.
+createContextMenu({
+    chrome: ...,
+    firefox: ...,
+});
 ```
 
 A consistent abi for creating a browser extension.
